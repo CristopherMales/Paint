@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>MiPaint_en.qm</file>
+        <file>MiPaint_fr.qm</file>
+    </qresource>
+</RCC>
