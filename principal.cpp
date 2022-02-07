@@ -11,6 +11,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+#include <iostream>
+
 #define DEFAULT_ANCHO 3
 
 Principal::Principal(QWidget *parent)
@@ -30,6 +32,10 @@ Principal::Principal(QWidget *parent)
     mColor = Qt::black;
     mAncho = DEFAULT_ANCHO;
     mNumLineas = 0;
+    connect(ui->actionLineas, SIGNAL(triggered(bool)),this,SLOT(on_actionLineas()));
+    connect(ui->actionLibre,SIGNAL(triggered(bool)),this,SLOT(on_actionLibre()));
+    connect(ui->actionRect_nculos, SIGNAL(triggered(bool)),this,SLOT(on_actionRectangulos()));
+    connect(ui->actionCircunferencias,SIGNAL(triggered(bool)),this,SLOT(on_actionCircuferencias()));
 }
 
 Principal::~Principal()
@@ -38,7 +44,22 @@ Principal::~Principal()
     delete mPainter;
     delete mImagen;
 }
-
+void Principal::on_actionLineas()
+{
+    type_figure = 0;
+}
+void Principal::on_actionLibre()
+{
+    type_figure = 1;
+}
+void Principal::on_actionRectangulos()
+{
+    type_figure = 2;
+}
+void Principal::on_actionCircuferencias()
+{
+    type_figure = 3;
+}
 void Principal::paintEvent(QPaintEvent *event)
 {
     // Crear el painter de la ventana principal
@@ -71,17 +92,34 @@ void Principal::mouseMoveEvent(QMouseEvent *event)
     pincel.setWidth(mAncho);
     // Dibujar una linea
     mPainter->setPen(pincel);
-    mPainter->drawLine(mInicial, mFinal);
-    // Mostrar el número de líneas en la barra de estado
-    ui->statusbar->showMessage("Número de líneas: " + QString::number(++mNumLineas));
+    //Tipo de figura
+    if (type_figure == 1){
+        mPainter->drawLine(mInicial, mFinal);
+        // Mostrar el número de líneas en la barra de estado
+        ui->statusbar->showMessage("Número de líneas: " + QString::number(++mNumLineas));
+
+
     // Actualizar la interfaz
     update();
     // actualizar el punto inicial
     mInicial = mFinal;
+    }
 }
 
 void Principal::mouseReleaseEvent(QMouseEvent *event)
 {
+    //Tipo de figura
+    if (type_figure == 0){
+        mPainter->drawLine(mInicial, mFinal);
+    }else if (type_figure == 2){
+        mPainter->drawRect(QRect(QPoint(mInicial),QPoint(mFinal)));
+    }else if(type_figure == 3)
+    {
+        int w = mFinal.x() - mInicial.x();
+        mPainter->drawArc(mInicial.x()-w,mInicial.y()-w,w*2,w*2,-90*16,360*16);
+    }
+    update();
+    mInicial = mFinal;
     mPuedeDibujar = false;
     // Aceptar el vento
     event->accept();

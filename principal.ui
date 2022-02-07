@@ -23,7 +23,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">
@@ -102,9 +102,6 @@
    </property>
   </action>
   <action name="actionLibre">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="text">
     <string>Libre</string>
    </property>

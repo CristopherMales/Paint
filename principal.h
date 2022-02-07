@@ -14,6 +14,7 @@ class Principal : public QMainWindow
 public:
     Principal(QWidget *parent = nullptr);
     ~Principal();
+    int type_figure = 0;
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -32,7 +33,10 @@ private slots:
     void on_actionNuevo_triggered();
 
     void on_actionGuardar_triggered();
-
+    void on_actionLineas();
+    void on_actionLibre();
+    void on_actionRectangulos();
+    void on_actionCircuferencias();
 private:
     Ui::Principal *ui;
     QImage *mImagen;        // Imagen sobre la que se va a dibujar
